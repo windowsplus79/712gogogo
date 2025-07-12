@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>1학년 정보</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고등학교 정보수업 - 인공지능 단원 수업지도안</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="lesson-header">
+            <h1>🤖 인공지능 학습 방법 수업지도안</h1>
+            <div class="lesson-info">
+                <span>고등학교 정보과</span>
+                <span>2차시 (80분)</span>
+                <span>지도학습 & 비지도학습</span>
+            </div>
+        </header>
+
+        <!-- 네비게이션 탭 -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="overview">수업 개요</button>
+            <button class="tab-btn" data-tab="lesson1">1차시</button>
+            <button class="tab-btn" data-tab="lesson2">2차시</button>
+            <button class="tab-btn" data-tab="assessment">평가</button>
+            <button class="tab-btn" data-tab="materials">준비물</button>
+        </nav>
+
+        <!-- 수업 개요 -->
+        <section id="overview" class="tab-content active">
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>📚 단원명</h3>
+                    <p>고등학교 정보과 - 인공지능 단원</p>
+                    <p><strong>소단원:</strong> 지도학습과 비지도학습</p>
+                </div>
+
+                <div class="overview-card">
+                    <h3>🎯 학습 목표</h3>
+                    <ul>
+                        <li>지도학습과 비지도학습의 개념을 설명할 수 있다</li>
+                        <li>분류와 회귀, 클러스터링의 차이를 구분할 수 있다</li>
+                        <li>실제 데이터를 활용한 AI 모델 체험을 할 수 있다</li>
+                        <li>AI 학습 방법의 실생활 적용 사례를 찾을 수 있다</li>
+                    </ul>
+                </div>
+
+                <div class="overview-card">
+                    <h3>⏰ 수업 시간</h3>
+                    <div class="time-breakdown">
+                        <div class="time-item">
+                            <span class="time-label">1차시</span>
+                            <span class="time-value">40분</span>
+                        </div>
+                        <div class="time-item">
+                            <span class="time-label">2차시</span>
+                            <span class="time-value">40분</span>
+                        </div>
+                        <div class="time-item">
+                            <span class="time-label">총 시간</span>
+                            <span class="time-value">80분</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-card">
+                    <h3>👥 대상 학생</h3>
+                    <p><strong>학년:</strong> 고등학교 1-3학년</p>
+                    <p><strong>인원:</strong> 25-35명</p>
+                    <p><strong>선수 학습:</strong> 기본적인 컴퓨터 활용 능력</p>
+                </div>
+
+                <div class="overview-card full-width">
+                    <h3>🏗️ 수업 구조</h3>
+                    <div class="lesson-structure">
+                        <div class="lesson-block">
+                            <h4>1차시: 지도학습</h4>
+                            <div class="activity-flow">
+                                <div class="activity">도입 (5분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">개념 학습 (10분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">실습 체험 (20분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">정리 (5분)</div>
+                            </div>
+                        </div>
+                        <div class="lesson-block">
+                            <h4>2차시: 비지도학습 + 평가</h4>
+                            <div class="activity-flow">
+                                <div class="activity">복습 (5분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">개념 학습 (10분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">실습 체험 (15분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">형성평가 (5분)</div>
+                                <div class="arrow">→</div>
+                                <div class="activity">마무리 (5분)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1차시 상세 내용 -->
+        <section id="lesson1" class="tab-content">
+            <h2>🎯 1차시: 지도학습 (Supervised Learning)</h2>
+            
+            <div class="lesson-timeline">
+                <div class="timeline-item">
+                    <div class="time-marker">5분</div>
+                    <div class="timeline-content">
+                        <h3>📱 도입 - 플랫폼 접속 및 동기 유발</h3>
+                        <div class="activity-detail">
+                            <h4>교사 활동</h4>
+                            <ul>
+                                <li>AI Learning Hub 플랫폼 URL 공유</li>
+                                <li>학생들의 접속 상황 실시간 모니터링</li>
+                                <li>"AI가 어떻게 학습할까?" 질문으로 동기 유발</li>
+                            </ul>
+                            <h4>학생 활동</h4>
+                            <ul>
+                                <li>개인 컴퓨터에서 플랫폼 접속</li>
+                                <li>이름, 학번 입력하여 개별 계정 생성</li>
+                                <li>플랫폼 인터페이스 익숙해지기</li>
+                            </ul>
+                            <div class="teaching-tip">
+                                <strong>💡 지도 TIP:</strong> 접속이 어려운 학생은 옆 학생과 함께 보도록 안내
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">10분</div>
+                    <div class="timeline-content">
+                        <h3>📚 개념 학습 - 지도학습 이론</h3>
+                        <div class="activity-detail">
+                            <h4>교사 활동</h4>
+                            <ul>
+                                <li>지도학습 개념을 "선생님과 학생" 비유로 설명</li>
+                                <li>분류와 회귀의 차이점 시각적 자료로 제시</li>
+                                <li>실생활 예시 (스팸 메일, 집 가격 예측) 소개</li>
+                            </ul>
+                            <h4>학생 활동</h4>
+                            <ul>
+                                <li>플랫폼의 "개념 학습" 탭에서 내용 확인</li>
+                                <li>분류와 회귀 예시 그래프 해석하기</li>
+                                <li>궁금한 점 질문하기</li>
+                            </ul>
+                            <div class="key-concepts">
+                                <h4>🔑 핵심 개념</h4>
+                                <div class="concept-grid">
+                                    <div class="concept-item">
+                                        <strong>지도학습</strong>
+                                        <p>정답이 있는 데이터로 AI 학습</p>
+                                    </div>
+                                    <div class="concept-item">
+                                        <strong>분류</strong>
+                                        <p>데이터를 카테고리로 구분</p>
+                                    </div>
+                                    <div class="concept-item">
+                                        <strong>회귀</strong>
+                                        <p>연속적인 수치 예측</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">20분</div>
+                    <div class="timeline-content">
+                        <h3>💻 실습 체험 - AI 모델 학습 및 예측</h3>
+                        <div class="activity-detail">
+                            <h4>실습 1: 분류 모델 (15분)</h4>
+                            <ul>
+                                <li><strong>주제:</strong> 시험 합격/불합격 예측</li>
+                                <li><strong>데이터:</strong> 공부시간, 수면시간 → 시험결과</li>
+                                <li><strong>활동:</strong> AI 모델 학습 버튼 클릭, 정확도 확인</li>
+                                <li><strong>체험:</strong> 새로운 데이터로 예측 해보기</li>
+                            </ul>
+                            <h4>실습 2: 회귀 모델 (5분)</h4>
+                            <ul>
+                                <li><strong>주제:</strong> 부동산 가격 예측</li>
+                                <li><strong>데이터:</strong> 평수, 건물연수 → 가격</li>
+                                <li><strong>활동:</strong> 3D 시각화로 데이터 분포 확인</li>
+                            </ul>
+                            <div class="assessment-point">
+                                <strong>📝 관찰 포인트:</strong>
+                                <ul>
+                                    <li>학습 과정에 적극적으로 참여하는가?</li>
+                                    <li>예측 결과를 논리적으로 해석하는가?</li>
+                                    <li>동료와 협력하여 문제를 해결하는가?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">5분</div>
+                    <div class="timeline-content">
+                        <h3>✅ 정리 및 차시 예고</h3>
+                        <div class="activity-detail">
+                            <h4>교사 활동</h4>
+                            <ul>
+                                <li>지도학습 완료 버튼 클릭 안내</li>
+                                <li>학습 내용 요약 및 질의응답</li>
+                                <li>다음 차시 (비지도학습) 예고</li>
+                            </ul>
+                            <h4>학생 활동</h4>
+                            <ul>
+                                <li>"지도학습 완료" 버튼 클릭</li>
+                                <li>오늘 배운 내용 간단히 정리</li>
+                                <li>궁금한 점이나 어려웠던 점 공유</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2차시 상세 내용 -->
+        <section id="lesson2" class="tab-content">
+            <h2>🔍 2차시: 비지도학습 + 형성평가</h2>
+            
+            <div class="lesson-timeline">
+                <div class="timeline-item">
+                    <div class="time-marker">5분</div>
+                    <div class="timeline-content">
+                        <h3>🔄 복습 - 지도학습 내용 점검</h3>
+                        <div class="activity-detail">
+                            <h4>교사 활동</h4>
+                            <ul>
+                                <li>교사 대시보드로 1차시 완료 현황 확인</li>
+                                <li>지도학습 주요 개념 간단 복습</li>
+                                <li>질의응답을 통한 이해도 점검</li>
+                            </ul>
+                            <h4>학생 활동</h4>
+                            <ul>
+                                <li>플랫폼 재접속 및 진도 현황 확인</li>
+                                <li>지도학습 내용 간단히 떠올리기</li>
+                                <li>궁금했던 점 질문하기</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">10분</div>
+                    <div class="timeline-content">
+                        <h3>📚 개념 학습 - 비지도학습 이론</h3>
+                        <div class="activity-detail">
+                            <h4>교사 활동</h4>
+                            <ul>
+                                <li>비지도학습을 "탐정 수사" 비유로 설명</li>
+                                <li>지도학습과 비지도학습 비교표 제시</li>
+                                <li>클러스터링 개념과 활용 분야 소개</li>
+                            </ul>
+                            <h4>학생 활동</h4>
+                            <ul>
+                                <li>비지도학습 개념 페이지 학습</li>
+                                <li>클러스터링 시각화 자료 해석</li>
+                                <li>실생활 클러스터링 사례 생각해보기</li>
+                            </ul>
+                            <div class="comparison-table">
+                                <h4>📊 지도학습 vs 비지도학습</h4>
+                                <table>
+                                    <tr>
+                                        <th>구분</th>
+                                        <th>지도학습</th>
+                                        <th>비지도학습</th>
+                                    </tr>
+                                    <tr>
+                                        <td>데이터</td>
+                                        <td>정답 있음</td>
+                                        <td>정답 없음</td>
+                                    </tr>
+                                    <tr>
+                                        <td>목적</td>
+                                        <td>예측</td>
+                                        <td>패턴 발견</td>
+                                    </tr>
+                                    <tr>
+                                        <td>예시</td>
+                                        <td>스팸 분류, 가격 예측</td>
+                                        <td>고객 세분화, 추천 시스템</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">15분</div>
+                    <div class="timeline-content">
+                        <h3>💻 실습 체험 - 클러스터링 실습</h3>
+                        <div class="activity-detail">
+                            <h4>고객 세분화 실습</h4>
+                            <ul>
+                                <li><strong>데이터:</strong> 고객의 나이, 연소득, 온라인구매점수</li>
+                                <li><strong>목표:</strong> 비슷한 특성의 고객 그룹 찾기</li>
+                                <li><strong>활동 순서:</strong>
+                                    <ol>
+                                        <li>고객 데이터 분포 확인 (5분)</li>
+                                        <li>클러스터 수 선택 및 그룹 찾기 (5분)</li>
+                                        <li>발견된 그룹별 특성 분석 (5분)</li>
+                                    </ol>
+                                </li>
+                            </ul>
+                            <div class="learning-outcome">
+                                <h4>🎯 기대 학습 성과</h4>
+                                <ul>
+                                    <li>데이터에서 숨겨진 패턴을 발견하는 과정 체험</li>
+                                    <li>그룹별 특성을 해석하고 마케팅 전략 이해</li>
+                                    <li>실무에서 AI가 활용되는 방식 이해</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">5분</div>
+                    <div class="timeline-content">
+                        <h3>📝 형성평가 - 학습 내용 확인</h3>
+                        <div class="activity-detail">
+                            <h4>평가 구성</h4>
+                            <ul>
+                                <li><strong>객관식 3문제:</strong> 지도/비지도학습 개념 (3분)</li>
+                                <li><strong>성찰 작성:</strong> 학습 소감 자유 서술 (2분)</li>
+                                <li><strong>제한 시간:</strong> 총 5분</li>
+                                <li><strong>자동 채점:</strong> 즉시 결과 확인</li>
+                            </ul>
+                            <div class="assessment-criteria">
+                                <h4>📊 평가 기준</h4>
+                                <ul>
+                                    <li><strong>우수 (80점 이상):</strong> 개념을 정확히 이해하고 적용</li>
+                                    <li><strong>양호 (60-79점):</strong> 기본 개념 이해</li>
+                                    <li><strong>보통 (60점 미만):</strong> 추가 학습 필요</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-marker">5분</div>
+                    <div class="timeline-content">
+                        <h3>🎊 마무리 - 전체 학습 정리</h3>
+                        <div class="activity-detail">
+                            <h4>교사 활동</h4>
+                            <ul>
+                                <li>교사 대시보드로 전체 학습 현황 확인</li>
+                                <li>우수 학습자 격려 및 피드백</li>
+                                <li>AI 기술의 미래와 진로 연계 안내</li>
+                            </ul>
+                            <h4>학생 활동</h4>
+                            <ul>
+                                <li>전체 학습 완료 확인</li>
+                                <li>동료와 학습 경험 공유</li>
+                                <li>AI 분야 진로 관심도 표현</li>
+                            </ul>
+                            <div class="wrap-up">
+                                <h4>🌟 학습 마무리 포인트</h4>
+                                <ul>
+                                    <li>AI는 데이터로부터 학습한다</li>
+                                    <li>문제에 따라 적절한 학습 방법 선택</li>
+                                    <li>AI 기술은 우리 생활 곳곳에서 활용</li>
+                                    <li>지속적인 관심과 학습이 중요</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 평가 계획 -->
+        <section id="assessment" class="tab-content">
+            <h2>📊 평가 계획</h2>
+            
+            <div class="assessment-overview">
+                <div class="assessment-card">
+                    <h3>📝 형성평가 (즉시 평가)</h3>
+                    <div class="assessment-details">
+                        <h4>평가 방법</h4>
+                        <ul>
+                            <li>온라인 객관식 퀴즈 (3문제)</li>
+                            <li>학습 성찰 서술형 (1문제)</li>
+                            <li>자동 채점 및 즉시 피드백</li>
+                        </ul>
+                        <h4>평가 기준</h4>
+                        <table class="grading-table">
+                            <tr>
+                                <th>등급</th>
+                                <th>점수</th>
+                                <th>기준</th>
+                            </tr>
+                            <tr>
+                                <td>우수</td>
+                                <td>80-100점</td>
+                                <td>개념 정확히 이해, 적용 가능</td>
+                            </tr>
+                            <tr>
+                                <td>양호</td>
+                                <td>60-79점</td>
+                                <td>기본 개념 이해</td>
+                            </tr>
+                            <tr>
+                                <td>보통</td>
+                                <td>60점 미만</td>
+                                <td>추가 학습 필요</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="assessment-card">
+                    <h3>👥 수행평가 (과정 중심)</h3>
+                    <div class="assessment-details">
+                        <h4>평가 영역</h4>
+                        <div class="performance-areas">
+                            <div class="area">
+                                <strong>참여도 (30%)</strong>
+                                <ul>
+                                    <li>플랫폼 적극적 활용</li>
+                                    <li>실습 활동 참여</li>
+                                    <li>질문 및 토론 참여</li>
+                                </ul>
+                            </div>
+                            <div class="area">
+                                <strong>이해도 (40%)</strong>
+                                <ul>
+                                    <li>개념 설명 능력</li>
+                                    <li>실습 결과 해석</li>
+                                    <li>사례 적용 능력</li>
+                                </ul>
+                            </div>
+                            <div class="area">
+                                <strong>협력성 (30%)</strong>
+                                <ul>
+                                    <li>동료와 협력 학습</li>
+                                    <li>지식 공유 의지</li>
+                                    <li>상호 도움 제공</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="assessment-card full-width">
+                    <h3>📈 실시간 학습 분석</h3>
+                    <div class="analytics-features">
+                        <div class="feature">
+                            <h4>🎯 개별 학습 현황</h4>
+                            <ul>
+                                <li>각 단계별 완료 시간</li>
+                                <li>실습 참여도 모니터링</li>
+                                <li>퀴즈 점수 및 오답 분석</li>
+                            </ul>
+                        </div>
+                        <div class="feature">
+                            <h4>📊 전체 클래스 분석</h4>
+                            <ul>
+                                <li>단계별 완료율 차트</li>
+                                <li>성적 분포 히스토그램</li>
+                                <li>평균 학습 시간 분석</li>
+                            </ul>
+                        </div>
+                        <div class="feature">
+                            <h4>💭 성찰 내용 분석</h4>
+                            <ul>
+                                <li>학생별 성찰 내용 수집</li>
+                                <li>학습 만족도 파악</li>
+                                <li>개선점 및 건의사항</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 준비물 및 환경 -->
+        <section id="materials" class="tab-content">
+            <h2>🛠️ 준비물 및 수업 환경</h2>
+            
+            <div class="materials-grid">
+                <div class="material-card">
+                    <h3>💻 하드웨어 요구사항</h3>
+                    <div class="requirements">
+                        <h4>학생용 (개별)</h4>
+                        <ul>
+                            <li>인터넷 연결 가능한 컴퓨터/노트북</li>
+                            <li>최신 웹 브라우저 (Chrome, Edge, Safari)</li>
+                            <li>마우스 (터치패드 가능)</li>
+                        </ul>
+                        <h4>교사용</h4>
+                        <ul>
+                            <li>교사용 컴퓨터/노트북</li>
+                            <li>프로젝터 또는 대형 모니터</li>
+                            <li>교사 대시보드 접근 권한</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <h3>🌐 소프트웨어 환경</h3>
+                    <div class="software-setup">
+                        <h4>플랫폼 설정</h4>
+                        <ul>
+                            <li><strong>AI Learning Hub</strong> 웹 플랫폼</li>
+                            <li>Google Sheets 연동 (실시간 동기화)</li>
+                            <li>Streamlit Cloud 배포</li>
+                            <li>안정적인 인터넷 연결 (학급 전체)</li>
+                        </ul>
+                        <h4>사전 준비사항</h4>
+                        <ul>
+                            <li>플랫폼 URL 학생들에게 공유</li>
+                            <li>교사 대시보드 비밀번호 확인</li>
+                            <li>Google Sheets 접근 권한 설정</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <h3>📚 교수학습 자료</h3>
+                    <div class="teaching-materials">
+                        <h4>디지털 자료</h4>
+                        <ul>
+                            <li>AI Learning Hub 플랫폼 (주 교재)</li>
+                            <li>개념 설명 시각화 자료</li>
+                            <li>실습용 샘플 데이터셋</li>
+                            <li>교사용 대시보드</li>
+                        </ul>
+                        <h4>보조 자료</h4>
+                        <ul>
+                            <li>AI 기술 소개 동영상 (선택)</li>
+                            <li>실생활 AI 사례 이미지</li>
+                            <li>개념 정리 PPT (백업용)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <h3>⚙️ 기술적 설정</h3>
+                    <div class="technical-setup">
+                        <h4>수업 전 점검사항</h4>
+                        <div class="checklist">
+                            <label><input type="checkbox"> 인터넷 연결 상태 확인</label>
+                            <label><input type="checkbox"> 플랫폼 정상 작동 테스트</label>
+                            <label><input type="checkbox"> 교사 대시보드 접속 확인</label>
+                            <label><input type="checkbox"> Google Sheets 동기화 테스트</label>
+                            <label><input type="checkbox"> 프로젝터 연결 및 화면 확인</label>
+                            <label><input type="checkbox"> 학생 컴퓨터 웹 브라우저 확인</label>
+                        </div>
+                        <h4>비상 계획</h4>
+                        <ul>
+                            <li><strong>인터넷 장애:</strong> 개념 설명 PPT로 이론 수업 진행</li>
+                            <li><strong>플랫폼 오류:</strong> 데모 동영상 활용</li>
+                            <li><strong>개별 접속 문제:</strong> 모둠별 공동 실습</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="material-card full-width">
+                    <h3>📋 수업 운영 가이드</h3>
+                    <div class="operation-guide">
+                        <div class="guide-section">
+                            <h4>🎯 교사 역할</h4>
+                            <ul>
+                                <li><strong>진행자:</strong> 전체 수업 흐름 관리</li>
+                                <li><strong>촉진자:</strong> 학생 간 상호작용 유도</li>
+                                <li><strong>관찰자:</strong> 실시간 대시보드로 학습 현황 모니터링</li>
+                                <li><strong>지원자:</strong> 기술적 문제 해결 및 개별 지도</li>
+                            </ul>
+                        </div>
+                        <div class="guide-section">
+                            <h4>👥 학생 활동 관리</h4>
+                            <ul>
+                                <li>개별 진도에 맞춘 자기주도적 학습</li>
+                                <li>동료와의 협력적 문제 해결</li>
+                                <li>실습 결과에 대한 해석 및 토론</li>
+                                <li>성찰을 통한 메타인지 활동</li>
+                            </ul>
+                        </div>
+                        <div class="guide-section">
+                            <h4>📊 실시간 모니터링</h4>
+                            <ul>
+                                <li>학생별 학습 진도 실시간 확인</li>
+                                <li>어려움을 겪는 학생 조기 발견</li>
+                                <li>전체 클래스 완료율 모니터링</li>
+                                <li>퀴즈 결과 즉시 분석 및 피드백</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
