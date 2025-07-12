@@ -19,6 +19,10 @@ st.set_page_config(
     layout="wide"
 )
 
+# 전역 데이터 저장소 (실제 환경에서는 데이터베이스 사용)
+if 'all_students_data' not in st.session_state:
+    st.session_state.all_students_data = []
+
 # 세션 상태 초기화
 def init_session_state():
     if 'student_info' not in st.session_state:
@@ -35,6 +39,38 @@ def init_session_state():
         st.session_state.quiz_started = False
     if 'quiz_answers' not in st.session_state:
         st.session_state.quiz_answers = {}
+    if 'is_teacher' not in st.session_state:
+        st.session_state.is_teacher = False
+
+# 학생 데이터 저장 함수
+def save_student_data():
+    if st.session_state.student_info:
+        student_data = {
+            'name': st.session_state.student_info['name'],
+            'id': st.session_state.student_info['id'],
+            'progress': st.session_state.progress.copy(),
+            'quiz_answers': st.session_state.quiz_answers.copy(),
+            'last_updated': datetime.now().strftime('%H:%M:%S'),
+            'quiz_score': 0,
+            'reflection': ''
+        }
+        
+        # 퀴즈 점수 계산
+        if st.session_state.quiz_answers:
+            correct_count = sum(1 for ans in st.session_state.quiz_answers.values() if ans['correct'])
+            student_data['quiz_score'] = (correct_count / len(QUIZ_QUESTIONS)) * 100
+        
+        # 기존 학생 데이터 업데이트 또는 새로 추가
+        existing_index = None
+        for i, data in enumerate(st.session_state.all_students_data):
+            if data['id'] == student_data['id']:
+                existing_index = i
+                break
+        
+        if existing_index is not None:
+            st.session_state.all_students_data[existing_index] = student_data
+        else:
+            st.session_state.all_students_data.append(student_data)
 
 # 퀴즈 문제
 QUIZ_QUESTIONS = [
@@ -122,44 +158,27 @@ def main():
     
     # 사이드바
     with st.sidebar:
-        st.markdown("### 학생 정보")
-        student_name = st.text_input("이름", key="student_name")
-        student_id = st.text_input("학번", key="student_id")
+        # 교사/학생 모드 선택
+        st.markdown("### 👤 사용자 모드")
+        user_type = st.selectbox("모드 선택", ["학생", "교사"], key="user_type")
         
-        if student_name and student_id:
-            st.session_state.student_info = {
-                'name': student_name,
-                'id': student_id
-            }
-            st.success("정보 저장됨!")
-        
-        st.markdown("---")
-        
-        # 진도 표시
-        completed = sum(st.session_state.progress.values())
-        st.markdown(f"### 진도: {completed}/3")
-        
-        st.markdown("---")
-        
-        # 페이지 네비게이션
-        if st.button("🏠 홈", key="nav_home"):
-            st.session_state.current_page = 'home'
-            st.rerun()
-        
-        if st.button("🎯 지도학습", key="nav_supervised"):
-            st.session_state.current_page = 'supervised'
-            st.rerun()
-        
-        if st.button("🔍 비지도학습", key="nav_unsupervised"):
-            st.session_state.current_page = 'unsupervised'
-            st.rerun()
-        
-        if st.button("📝 형성평가", key="nav_evaluation"):
-            st.session_state.current_page = 'evaluation'
-            st.rerun()
+        if user_type == "교사":
+            st.session_state.is_teacher = True
+            teacher_password = st.text_input("교사 비밀번호", type="password", key="teacher_password")
+            if teacher_password == "teacher123":  # 간단한 비밀번호
+                st.success("교사 모드 활성화")
+                show_teacher_sidebar()
+            else:
+                st.warning("비밀번호를 입력하세요 (teacher123)")
+                return
+        else:
+            st.session_state.is_teacher = False
+            show_student_sidebar()
     
     # 페이지 라우팅
-    if st.session_state.current_page == 'home':
+    if st.session_state.is_teacher:
+        show_teacher_dashboard()
+    elif st.session_state.current_page == 'home':
         show_home_page()
     elif st.session_state.current_page == 'supervised':
         show_supervised_learning()
@@ -167,6 +186,68 @@ def main():
         show_unsupervised_learning()
     elif st.session_state.current_page == 'evaluation':
         show_evaluation()
+
+def show_student_sidebar():
+    st.markdown("### 👨‍🎓 학생 정보")
+    student_name = st.text_input("이름", key="student_name")
+    student_id = st.text_input("학번", key="student_id")
+    
+    if student_name and student_id:
+        st.session_state.student_info = {
+            'name': student_name,
+            'id': student_id
+        }
+        st.success("정보 저장됨!")
+        save_student_data()  # 학생 데이터 저장
+    
+    st.markdown("---")
+    
+    # 진도 표시
+    completed = sum(st.session_state.progress.values())
+    st.markdown(f"### 📊 진도: {completed}/3")
+    
+    st.markdown("---")
+    
+    # 페이지 네비게이션
+    if st.button("🏠 홈", key="nav_home"):
+        st.session_state.current_page = 'home'
+        st.rerun()
+    
+    if st.button("🎯 지도학습", key="nav_supervised"):
+        st.session_state.current_page = 'supervised'
+        st.rerun()
+    
+    if st.button("🔍 비지도학습", key="nav_unsupervised"):
+        st.session_state.current_page = 'unsupervised'
+        st.rerun()
+    
+    if st.button("📝 형성평가", key="nav_evaluation"):
+        st.session_state.current_page = 'evaluation'
+        st.rerun()
+
+def show_teacher_sidebar():
+    st.markdown("### 🎓 교사 대시보드")
+    
+    total_students = len(st.session_state.all_students_data)
+    st.metric("총 접속 학생 수", total_students)
+    
+    if total_students > 0:
+        completed_all = sum(1 for data in st.session_state.all_students_data 
+                           if all(data['progress'].values()))
+        st.metric("전체 완료 학생", f"{completed_all}/{total_students}")
+        
+        if st.button("🔄 새로고침", key="refresh_data"):
+            st.rerun()
+        
+        if st.button("📥 CSV 다운로드", key="download_csv"):
+            df = pd.DataFrame(st.session_state.all_students_data)
+            csv = df.to_csv(index=False, encoding='utf-8-sig')
+            st.download_button(
+                label="학생 데이터 다운로드",
+                data=csv,
+                file_name=f"student_data_{datetime.now().strftime('%Y%m%d_%H%M')}.csv",
+                mime="text/csv"
+            )
 
 def show_home_page():
     st.title("🤖 AI Learning Hub")
@@ -289,6 +370,7 @@ def show_supervised_learning():
     
     if st.button("지도학습 완료", key="complete_supervised"):
         st.session_state.progress['supervised'] = True
+        save_student_data()  # 진도 저장
         st.success("지도학습을 완료했습니다!")
         st.balloons()
 
@@ -392,6 +474,7 @@ def show_unsupervised_learning():
     
     if st.button("비지도학습 완료", key="complete_unsupervised"):
         st.session_state.progress['unsupervised'] = True
+        save_student_data()  # 진도 저장
         st.success("비지도학습을 완료했습니다!")
         st.balloons()
 
@@ -460,7 +543,7 @@ def show_evaluation():
             st.markdown("---")
         
         # 성찰 작성
-        st.markdown("### 학습 성찰")
+        st.markdown("### 🤔 학습 성찰")
         reflection = st.text_area(
             "오늘 AI 학습에서 느낀 점을 작성해주세요:",
             key="reflection_text",
@@ -474,14 +557,21 @@ def show_evaluation():
                 total_count = len(QUIZ_QUESTIONS)
                 score = (correct_count / total_count) * 100
                 
+                # 성찰 내용 저장
+                for data in st.session_state.all_students_data:
+                    if data['id'] == st.session_state.student_info['id']:
+                        data['reflection'] = reflection
+                        break
+                
+                st.session_state.progress['evaluation'] = True
+                save_student_data()  # 최종 데이터 저장
+                
                 if score >= 80:
                     st.success(f"🎉 우수! 점수: {correct_count}/{total_count} ({score:.0f}점)")
                 elif score >= 60:
                     st.info(f"👍 양호! 점수: {correct_count}/{total_count} ({score:.0f}점)")
                 else:
                     st.warning(f"📚 복습 필요! 점수: {correct_count}/{total_count} ({score:.0f}점)")
-                
-                st.session_state.progress['evaluation'] = True
                 
                 if all(st.session_state.progress.values()):
                     st.balloons()
@@ -491,6 +581,99 @@ def show_evaluation():
             st.warning("모든 문제에 답해주세요.")
         elif not reflection.strip():
             st.warning("성찰을 작성해주세요.")
+
+def show_teacher_dashboard():
+    st.title("🎓 교사 실시간 대시보드")
+    
+    if not st.session_state.all_students_data:
+        st.info("아직 접속한 학생이 없습니다.")
+        return
+    
+    # 자동 새로고침 (30초마다)
+    time.sleep(1)
+    st.rerun()
+    
+    # 전체 통계
+    st.markdown("## 📊 전체 현황")
+    
+    total_students = len(st.session_state.all_students_data)
+    completed_supervised = sum(1 for data in st.session_state.all_students_data if data['progress']['supervised'])
+    completed_unsupervised = sum(1 for data in st.session_state.all_students_data if data['progress']['unsupervised'])
+    completed_evaluation = sum(1 for data in st.session_state.all_students_data if data['progress']['evaluation'])
+    completed_all = sum(1 for data in st.session_state.all_students_data if all(data['progress'].values()))
+    
+    col1, col2, col3, col4, col5 = st.columns(5)
+    
+    with col1:
+        st.metric("총 학생 수", total_students)
+    with col2:
+        st.metric("지도학습 완료", f"{completed_supervised}/{total_students}")
+    with col3:
+        st.metric("비지도학습 완료", f"{completed_unsupervised}/{total_students}")
+    with col4:
+        st.metric("형성평가 완료", f"{completed_evaluation}/{total_students}")
+    with col5:
+        st.metric("전체 완료", f"{completed_all}/{total_students}")
+    
+    # 진도 현황 차트
+    st.markdown("### 📈 학습 진도 현황")
+    
+    progress_data = {
+        '단계': ['지도학습', '비지도학습', '형성평가'],
+        '완료 학생 수': [completed_supervised, completed_unsupervised, completed_evaluation],
+        '완료율(%)': [
+            (completed_supervised/total_students)*100 if total_students > 0 else 0,
+            (completed_unsupervised/total_students)*100 if total_students > 0 else 0,
+            (completed_evaluation/total_students)*100 if total_students > 0 else 0
+        ]
+    }
+    
+    fig = px.bar(progress_data, x='단계', y='완료 학생 수', 
+                 title="단계별 완료 현황",
+                 color='완료율(%)',
+                 color_continuous_scale='viridis')
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # 개별 학생 현황
+    st.markdown("### 👥 개별 학생 현황")
+    
+    # 학생 데이터를 DataFrame으로 변환
+    students_df = []
+    for data in st.session_state.all_students_data:
+        students_df.append({
+            '이름': data['name'],
+            '학번': data['id'],
+            '지도학습': '✅' if data['progress']['supervised'] else '❌',
+            '비지도학습': '✅' if data['progress']['unsupervised'] else '❌',
+            '형성평가': '✅' if data['progress']['evaluation'] else '❌',
+            '퀴즈점수': f"{data['quiz_score']:.0f}점" if data['quiz_score'] > 0 else '-',
+            '최근접속': data['last_updated']
+        })
+    
+    df = pd.DataFrame(students_df)
+    st.dataframe(df, use_container_width=True)
+    
+    # 성적 분포
+    if completed_evaluation > 0:
+        st.markdown("### 📊 퀴즈 성적 분포")
+        
+        scores = [data['quiz_score'] for data in st.session_state.all_students_data if data['quiz_score'] > 0]
+        
+        if scores:
+            fig_hist = px.histogram(x=scores, nbins=5, title="퀴즈 점수 분포",
+                                   labels={'x': '점수', 'y': '학생 수'})
+            st.plotly_chart(fig_hist, use_container_width=True)
+            
+            avg_score = sum(scores) / len(scores)
+            st.info(f"평균 점수: {avg_score:.1f}점")
+    
+    # 학생별 상세 정보
+    st.markdown("### 📝 학생별 성찰 내용")
+    
+    for data in st.session_state.all_students_data:
+        if data['progress']['evaluation'] and data.get('reflection'):
+            with st.expander(f"{data['name']} ({data['id']}) - {data['quiz_score']:.0f}점"):
+                st.write(data['reflection'])
 
 if __name__ == "__main__":
     main()
