@@ -14,7 +14,7 @@ import time
 
 # 페이지 설정
 st.set_page_config(
-    page_title="AI Learning Hub",
+    page_title="영동일고등학교 AI Learning Hub",
     page_icon="🤖",
     layout="wide"
 )
@@ -45,20 +45,21 @@ def init_session_state():
 # 학생 데이터 저장 함수
 def save_student_data():
     if st.session_state.student_info:
+        # 퀴즈 점수 계산
+        quiz_score = 0
+        if st.session_state.quiz_answers:
+            correct_count = sum(1 for ans in st.session_state.quiz_answers.values() if ans['correct'])
+            quiz_score = (correct_count / len(QUIZ_QUESTIONS)) * 100
+        
         student_data = {
             'name': st.session_state.student_info['name'],
             'id': st.session_state.student_info['id'],
             'progress': st.session_state.progress.copy(),
             'quiz_answers': st.session_state.quiz_answers.copy(),
             'last_updated': datetime.now().strftime('%H:%M:%S'),
-            'quiz_score': 0,
-            'reflection': ''
+            'quiz_score': quiz_score,
+            'reflection': getattr(st.session_state, 'current_reflection', '')
         }
-        
-        # 퀴즈 점수 계산
-        if st.session_state.quiz_answers:
-            correct_count = sum(1 for ans in st.session_state.quiz_answers.values() if ans['correct'])
-            student_data['quiz_score'] = (correct_count / len(QUIZ_QUESTIONS)) * 100
         
         # 기존 학생 데이터 업데이트 또는 새로 추가
         existing_index = None
@@ -71,6 +72,9 @@ def save_student_data():
             st.session_state.all_students_data[existing_index] = student_data
         else:
             st.session_state.all_students_data.append(student_data)
+        
+        # 강제로 상태 저장
+        st.session_state.all_students_data = st.session_state.all_students_data
 
 # 퀴즈 문제
 QUIZ_QUESTIONS = [
@@ -240,14 +244,35 @@ def show_teacher_sidebar():
             st.rerun()
         
         if st.button("📥 CSV 다운로드", key="download_csv"):
-            df = pd.DataFrame(st.session_state.all_students_data)
-            csv = df.to_csv(index=False, encoding='utf-8-sig')
-            st.download_button(
-                label="학생 데이터 다운로드",
-                data=csv,
-                file_name=f"student_data_{datetime.now().strftime('%Y%m%d_%H%M')}.csv",
-                mime="text/csv"
-            )
+            if st.session_state.all_students_data:
+                # 한글 지원을 위한 데이터 준비
+                csv_data = []
+                for data in st.session_state.all_students_data:
+                    csv_data.append({
+                        '이름': data['name'],
+                        '학번': data['id'],
+                        '지도학습완료': '완료' if data['progress']['supervised'] else '미완료',
+                        '비지도학습완료': '완료' if data['progress']['unsupervised'] else '미완료',
+                        '형성평가완료': '완료' if data['progress']['evaluation'] else '미완료',
+                        '퀴즈점수': data['quiz_score'],
+                        '성찰내용': data.get('reflection', ''),
+                        '최근접속시간': data['last_updated']
+                    })
+                
+                df = pd.DataFrame(csv_data)
+                
+                # UTF-8 BOM 추가로 한글 깨짐 방지
+                csv_string = df.to_csv(index=False, encoding='utf-8-sig')
+                
+                st.download_button(
+                    label="📥 학생 데이터 다운로드 (CSV)",
+                    data=csv_string.encode('utf-8-sig'),
+                    file_name=f"AI학습현황_{datetime.now().strftime('%Y%m%d_%H%M')}.csv",
+                    mime="text/csv",
+                    key="download_button"
+                )
+            else:
+                st.warning("다운로드할 데이터가 없습니다.")
 
 def show_home_page():
     st.title("🤖 AI Learning Hub")
@@ -553,15 +578,12 @@ def show_evaluation():
         # 제출
         if all_answered and reflection.strip():
             if st.button("제출하기", key="submit_quiz"):
+                # 성찰 내용을 세션에 저장
+                st.session_state.current_reflection = reflection
+                
                 correct_count = sum(1 for ans in st.session_state.quiz_answers.values() if ans['correct'])
                 total_count = len(QUIZ_QUESTIONS)
                 score = (correct_count / total_count) * 100
-                
-                # 성찰 내용 저장
-                for data in st.session_state.all_students_data:
-                    if data['id'] == st.session_state.student_info['id']:
-                        data['reflection'] = reflection
-                        break
                 
                 st.session_state.progress['evaluation'] = True
                 save_student_data()  # 최종 데이터 저장
@@ -576,6 +598,9 @@ def show_evaluation():
                 if all(st.session_state.progress.values()):
                     st.balloons()
                     st.markdown("### 🎊 축하합니다! 모든 학습을 완료했습니다!")
+                
+                # 성공 메시지
+                st.info("✅ 결과가 교사 대시보드에 전송되었습니다!")
         
         elif not all_answered:
             st.warning("모든 문제에 답해주세요.")
@@ -585,13 +610,23 @@ def show_evaluation():
 def show_teacher_dashboard():
     st.title("🎓 교사 실시간 대시보드")
     
+    # 새로고침 버튼을 맨 위에 배치
+    col1, col2, col3 = st.columns([1, 1, 2])
+    with col1:
+        if st.button("🔄 새로고침", key="refresh_dashboard"):
+            st.rerun()
+    with col2:
+        st.metric("현재 시간", datetime.now().strftime('%H:%M:%S'))
+    
     if not st.session_state.all_students_data:
         st.info("아직 접속한 학생이 없습니다.")
+        st.markdown("### 💡 사용 방법")
+        st.markdown("""
+        1. 학생들이 사이드바에서 **"학생"** 모드를 선택
+        2. 이름과 학번을 입력하고 학습 시작
+        3. 학생 활동이 이 대시보드에 실시간으로 표시됩니다
+        """)
         return
-    
-    # 자동 새로고침 (30초마다)
-    time.sleep(1)
-    st.rerun()
     
     # 전체 통계
     st.markdown("## 📊 전체 현황")
@@ -650,8 +685,9 @@ def show_teacher_dashboard():
             '최근접속': data['last_updated']
         })
     
-    df = pd.DataFrame(students_df)
-    st.dataframe(df, use_container_width=True)
+    if students_df:
+        df = pd.DataFrame(students_df)
+        st.dataframe(df, use_container_width=True)
     
     # 성적 분포
     if completed_evaluation > 0:
@@ -665,15 +701,25 @@ def show_teacher_dashboard():
             st.plotly_chart(fig_hist, use_container_width=True)
             
             avg_score = sum(scores) / len(scores)
-            st.info(f"평균 점수: {avg_score:.1f}점")
+            st.info(f"📈 평균 점수: {avg_score:.1f}점")
     
     # 학생별 상세 정보
     st.markdown("### 📝 학생별 성찰 내용")
     
+    reflection_found = False
     for data in st.session_state.all_students_data:
         if data['progress']['evaluation'] and data.get('reflection'):
+            reflection_found = True
             with st.expander(f"{data['name']} ({data['id']}) - {data['quiz_score']:.0f}점"):
                 st.write(data['reflection'])
+    
+    if not reflection_found:
+        st.info("아직 제출된 성찰 내용이 없습니다.")
+    
+    # 디버깅 정보 (개발용)
+    with st.expander("🔧 디버깅 정보 (개발용)"):
+        st.write("전체 학생 데이터:")
+        st.json(st.session_state.all_students_data)
 
 if __name__ == "__main__":
     main()
