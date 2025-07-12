@@ -275,7 +275,7 @@ def show_teacher_sidebar():
                 st.warning("다운로드할 데이터가 없습니다.")
 
 def show_home_page():
-    st.title("🤖 AI Learning Hub")
+    st.title("🤖 영동일고등학교 AI Learning Hub")
     st.markdown("### 고등학교 정보수업 - 인공지능 체험 플랫폼")
     
     if not st.session_state.student_info:
