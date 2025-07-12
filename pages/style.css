@@ -1,0 +1,661 @@
+/* 전체 레이아웃 및 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* 헤더 스타일 */
+.lesson-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.lesson-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.lesson-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.lesson-info {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.lesson-info span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 탭 네비게이션 */
+.tab-navigation {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    position: relative;
+}
+
+.tab-btn:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.tab-btn.active {
+    background: white;
+    color: #667eea;
+    border-bottom: 3px solid #667eea;
+}
+
+.tab-btn.active::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+/* 탭 콘텐츠 */
+.tab-content {
+    display: none;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 수업 개요 스타일 */
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.overview-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.overview-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.overview-card h3 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.overview-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.overview-card li {
+    padding: 0.3rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.overview-card li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* 시간 분배 스타일 */
+.time-breakdown {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.time-item {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.time-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.time-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* 수업 구조 스타일 */
+.lesson-structure {
+    display: grid;
+    gap: 2rem;
+}
+
+.lesson-block {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.lesson-block h4 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.activity-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.activity {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.arrow {
+    color: #667eea;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* 타임라인 스타일 */
+.lesson-timeline {
+    position: relative;
+    padding-left: 3rem;
+}
+
+.lesson-timeline::before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #667eea, #764ba2);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.time-marker {
+    position: absolute;
+    left: -3rem;
+    top: 0;
+    width: 4rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    z-index: 2;
+}
+
+.timeline-content h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+/* 활동 상세 스타일 */
+.activity-detail {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+.activity-detail h4 {
+    color: #667eea;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.activity-detail ul {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.activity-detail li {
+    margin-bottom: 0.5rem;
+}
+
+.teaching-tip, .assessment-point, .learning-outcome, .wrap-up {
+    background: linear-gradient(135deg, #e8f4f8, #f0f8ff);
+    border-left: 4px solid #17a2b8;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.teaching-tip strong, .assessment-point strong, .learning-outcome strong, .wrap-up strong {
+    color: #17a2b8;
+}
+
+/* 핵심 개념 스타일 */
+.key-concepts {
+    margin-top: 1.5rem;
+}
+
+.concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.concept-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.concept-item:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.concept-item strong {
+    display: block;
+    color: #667eea;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 비교 테이블 스타일 */
+.comparison-table {
+    margin-top: 1.5rem;
+}
+
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.comparison-table th {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+}
+
+.comparison-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* 평가 관련 스타일 */
+.assessment-overview {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.assessment-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.assessment-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.assessment-card h3 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.grading-table {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.grading-table th,
+.grading-table td {
+    padding: 0.8rem;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.grading-table th {
+    background: #667eea;
+    color: white;
+}
+
+.performance-areas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.performance-areas .area {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+}
+
+.performance-areas .area strong {
+    display: block;
+    color: #28a745;
+    margin-bottom: 0.5rem;
+}
+
+.analytics-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.analytics-features .feature {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-top: 4px solid #17a2b8;
+}
+
+.analytics-features .feature h4 {
+    color: #17a2b8;
+    margin-bottom: 1rem;
+}
+
+/* 준비물 관련 스타일 */
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.material-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #ffc107;
+}
+
+.material-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.material-card h3 {
+    color: #e67e22;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.requirements h4,
+.software-setup h4,
+.teaching-materials h4,
+.technical-setup h4 {
+    color: #667eea;
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.checklist {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.checklist label {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 0;
+    cursor: pointer;
+}
+
+.checklist input[type="checkbox"] {
+    margin-right: 0.5rem;
+    transform: scale(1.2);
+}
+
+.operation-guide {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.guide-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-top: 4px solid #6f42c1;
+}
+
+.guide-section h4 {
+    color: #6f42c1;
+    margin-bottom: 1rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 10px;
+    }
+    
+    .lesson-header {
+        padding: 2rem 1rem;
+    }
+    
+    .lesson-header h1 {
+        font-size: 2rem;
+    }
+    
+    .lesson-info {
+        gap: 1rem;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+    
+    .overview-grid,
+    .materials-grid,
+    .analytics-features,
+    .operation-guide {
+        grid-template-columns: 1fr;
+    }
+    
+    .activity-flow {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .arrow {
+        transform: rotate(90deg);
+    }
+    
+    .lesson-timeline {
+        padding-left: 2rem;
+    }
+    
+    .time-marker {
+        left: -2rem;
+        width: 3rem;
+        font-size: 0.7rem;
+    }
+    
+    .time-breakdown {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .lesson-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .lesson-info span {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+    }
+    
+    .tab-btn {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 프린트 스타일 */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .container {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    .lesson-header {
+        background: #667eea !important;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    .tab-navigation {
+        display: none;
+    }
+    
+    .tab-content {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+    
+    .timeline-item {
+        page-break-inside: avoid;
+    }
+}
